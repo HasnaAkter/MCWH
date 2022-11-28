@@ -1,0 +1,169 @@
+
+function chatbotUi() {
+
+    // Get HTML head element 
+    // https://codepen.io/shivapandey/pen/dWdRYM?editors=0010
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    //link.href = './chatbot/advchatbot.css';
+    link.href = 'https://thb-website.s3.ap-south-1.amazonaws.com/plugins/chatbot/evercare/v2.0/advchatbot.css';
+    document.getElementsByTagName('HEAD')[0].appendChild(link);
+
+
+
+    var openChat = `
+            <div id="body"> 
+            <div id="chat-circle" class=" btn-raised" style="z-index: 4;" >
+                    <div id="chat-overlay"></div>
+                    
+                   
+                    <div class="howyhelp"  id="cor">
+                        <div class="howyhelpicontext"> Hello, how can I help you?</div>
+                            <div class="howyhelpicon" style="background:  url(https://thb-website.s3.ap-south-1.amazonaws.com/plugins/chatbot/evercare/v1.0/chat-drop.png) 0 0 no-repeat;"> 
+                                <img src="https://healthylabs.s3-ap-southeast-1.amazonaws.com/chatbot/evercare.png" alt="" width="40px" class="mr-2" style="border: #fff solid 1px;
+                                        border-radius: 100px;
+                                        width: 66px;
+                                        height: 66px;
+                                        background: #fff;
+                                        padding: 3px;     
+                                        margin-top: 10px;"/>
+                            </div>
+                        
+                    </div>
+
+                    
+                </div>
+              <div id=chatbox" class="chat-box" style="z-index: 2147483647;">
+               
+                <div class="chat-box-body">
+          
+
+                <div class="bubblemodal" id="refreshmodal" style="display:none;"  role="dialog">
+                <div class="bubblemodal-dialog" role="document">
+                  <div class="bubblemodal-content">
+              
+                    <div class="bubblemodal-content-body text-center">
+                    <p><img src="https://healthylabs.s3-ap-southeast-1.amazonaws.com/chatbot/evercare.png" alt="sunil" style="width:64px;">  </p>
+                      <p>Sure to close this chat?</p>
+                      <small> All previous conversation will be lost. If you have question I could not answer, leave a query. </small>
+                    </div>
+                    <div class="bubblemodal-content-footer">
+                      <button type="button" style="background: #59b4d3;" class=" btn-modal" onClick='hideRefreshModal()' >Continue chat</button>
+                      <button type="button" style="background: #923c3c;" class=" btn-modal" onClick='toggleChatOpenCloseBack()' >Start from beginning</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+                <iframe id='iframeid' class="thb_iframe_custom" src='https://chatbot.hlthclub.in/evercare/chatbot?id=report&formType=1&lang=en&mode=report&bot=true'  frameborder='0px'> </iframe>
+                  <!--chat-log -->
+                </div>
+                <div class="chat-input" style="text-align: center;
+                    font-size: 12px;
+                    font-weight: 500;
+                    font-style: italic;
+                    display:flex;
+                    padding: 0px 0px;">   
+
+                <span style="width: 13%;padding: 5px;">
+                <div id='corRefresh' class='thb_chat_refresh'  onClick='showRefreshModal()'> 
+                    <svg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' 
+                            viewBox='0 0 14.155 14.155' style='enable-background:new 0 0 14.155 14.155;transform: rotate(90deg);margin: 7px;' xml:space='preserve'> 
+                            <g><path style='fill:#fff;' d='M12.083,1.887c-0.795-0.794-1.73-1.359-2.727-1.697v2.135c0.48,0.239,0.935,0.55,1.334,0.95
+                                    c1.993,1.994,1.993,5.236,0,7.229c-1.993,1.99-5.233,1.99-7.229,0c-1.991-1.995-1.991-5.235,0-7.229
+                                    C3.466,3.269,3.482,3.259,3.489,3.25h0.002l1.181,1.179L4.665,0.685L0.923,0.68l1.176,1.176C2.092,1.868,2.081,1.88,2.072,1.887
+                                    c-2.763,2.762-2.763,7.243,0,10.005c2.767,2.765,7.245,2.765,10.011,0C14.844,9.13,14.847,4.649,12.083,1.887z'/>
+                            </g> 
+                    </svg>
+                </div>
+                </span>
+
+                  <div style="width: 85%;line-height: 2;">
+                    <span style="display:none;color: rgb(155, 166, 178);">Powered by</span> 
+                    <a target="_blank" href="https://www.thb.co.in" style="display:none;color: rgb(18, 91, 251);">THB</a>
+                  </div>
+                  <span style="width: 12%;color: white;"> 
+                  <div id='corClose' class='thb_chat_close'> 
+                    <svg  focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='presentation' style="margin: 4px;fill: #fff;"> 
+                       <path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'></path><path fill='none' d='M0 0h24v24H0z'></path> 
+                    </svg>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>`
+
+    var para = document.createElement("div");                 // Create a <p> element
+    para.innerHTML = openChat;            // Insert text
+    // document.body.appendChild(para);
+    try {
+        let isInIframe = window.self !== window.top
+        if (!isInIframe) {
+            document.body.appendChild(para);
+        }
+    } catch (e) {
+        document.body.appendChild(para);
+    }
+
+    jQuery(function () {
+        jQuery("#chat-circle").click(function () {
+            jQuery("#chat-circle").toggle('scale');
+            jQuery(".chat-box").toggle('scale');
+        })
+
+        jQuery(".chat-box-toggle").click(function () {
+            jQuery("#chat-circle").toggle('scale');
+            jQuery(".chat-box").toggle('scale');
+        })
+        jQuery("#corClose").click(function () {
+            jQuery("#chat-circle").toggle('scale');
+            jQuery(".chat-box").toggle('scale');
+        })
+    })
+//     try{
+//     document.getElementById('iframeid').src = "https://betachatbot.hlthclub.in/bumrungrad/chatbot?id=report&formType=1&lang=en&mode=report&bot=true";
+// }catch( err ){
+//     alert("s")
+//     console.error( err )
+// }
+}
+
+function toggleChatOpenCloseBack() {
+    document.getElementById('iframeid').src = document.getElementById('iframeid').src
+    document.getElementById("refreshmodal").style.display = "none";
+}
+
+
+function showRefreshModal(){
+    document.getElementById("refreshmodal").style.display = "block";
+}
+
+function hideRefreshModal(){
+    document.getElementById("refreshmodal").style.display = "none";
+}
+
+
+function toggleChatOpenClose() {
+    jQuery("#chat-circle").click(function () {
+        jQuery("#chat-circle").toggle('scale');
+        jQuery(".chat-box").toggle('scale');
+    })
+
+    jQuery(".chat-box-toggle").click(function () {
+        jQuery("#chat-circle").toggle('scale');
+        jQuery(".chat-box").toggle('scale');
+    })
+}
+
+function onLoad() {
+    window.onload = function () {
+        // setTimeout(function(){
+        chatbotUi();
+        // }, 10);
+    };
+}
+
+onLoad();
